@@ -34,6 +34,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
@@ -47,6 +48,12 @@ public abstract class EntityMixin implements EntityExtensions {
 
 	@Inject(at = @At("TAIL"), method = "<init>")
 	public void port_lib$entityInit(EntityType<?> entityType, Level world, CallbackInfo ci) {
+		if (((Entity)((Object)this)) instanceof LivingEntity living)
+		{
+			if (living.getAttributes() == null) {
+				return;
+			}
+		}
 		EntityDimensions dims = ((Entity)((Object)this)).getDimensions(this.getPose());
 		if(dims == null) {
 			return;
